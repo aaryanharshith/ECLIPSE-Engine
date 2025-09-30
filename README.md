@@ -1,2 +1,4 @@
 # POWer-Engine
-Enter DNA from your bioreactor filtrate. Instantly track chlorite-resistant microbes. 
+Enter DNA-seq from your reactor filtrate. Instantly track bacteria, phages, and chlorite-resistant microbes. 
+
+Built by Aaryan Harshith for POW.bio (2025)

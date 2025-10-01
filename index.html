@@ -357,8 +357,8 @@
           const lower = name.toLowerCase();
 
           // Only allow items containing relevant keyword stems
-          const hosts = ["phage","bact","chlorite","dismutase","chlori"];
-          const ok = hosts.some(h => lower.includes(h));
+          const organisms = ["phage","bact","chlorite","dismutase","chlori"];
+          const ok = organisms.some(h => lower.includes(h));
           if (!ok) continue;
 
           hits.push({ name, accession, similarity, evalue });

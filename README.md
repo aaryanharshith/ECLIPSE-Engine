@@ -1,4 +1,4 @@
-# ECLIPSE Engine ⚛
+# ECLIPSE Engine 🪐
 
 Enter DNA-seq from your reactor filtrate. Instantly track bacterial and viral contaminants. 
 

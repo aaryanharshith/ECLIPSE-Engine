@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ELEMENT Results</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-0: #0b0d0d; /* main background */
+    --bg-1: #121515; /* secondary background */
+    --surface: #161a1a; /* panel background */
+    --muted: #9aa3a3; /* secondary text */
+    --text: #e8f0ee; /* main text */
+    --accent: #28ca7e; /* primary accent */
+    --accent-2: #28ca7e; /* secondary accent gradient */
+    --border: #2a2f2f; /* border color */
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    background: var(--bg-0);
+    color: var(--text);
+    display: flex; /* sidebar + main content */
+  }
+
+  /* Sidebar styling */
+  #sidebar {
+    width: 280px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 40px 18px 24px; /* top, sides, bottom padding */
+    display: flex;
+    flex-direction: column;
+    gap: 24px; /* space between sections */
+  }
+  #sidebar h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 15 0px;
+    color: var(--accent);
+  }
+  #sidebar p {
+    font-size: 14px;
+    color: var(--text);
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  #sidebar label {
+    font-size: 14px;
+    color: #dfe7e5;
+    display: block;
+    margin-bottom: 6px;
+  }
+  #sidebar input[type="checkbox"] {
+    accent-color: var(--accent); /* modern checkbox color */
+    margin-right: 6px;
+  }
+  #sidebar input[type="range"] {
+    width: 100%;
+    margin-top: 6px;
+    accent-color: var(--accent);
+    cursor:pointer;
+  }
+
+  #sidebar button,
+  #sidebar select {
+    width: 100%;
+    font-family: 'Inter';
+    font-size: 14px;
+    border-radius: 10px;
+    border: none;
+    padding: 12px;
+    margin-top: 6px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* spacing between icon/text */
+  }
+  #sidebar button:hover { filter: brightness(1.05); }
+  #sidebar select {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 500;
+    padding: 10px;
+  }
+
+  /* Main content area */
+  #content {
+    flex-grow: 1; /* fill remaining space */
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header row with title + export controls */
+  #headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  #titleBlock {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #titleBlock h2 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text);
+  }
+
+  #titleBlock p {
+    margin: 8px 0 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  #exportControls {
+    display: flex;
+    gap: 12px; /* spacing between export elements */
+  }
+
+  #exportControls select,
+  #exportControls button {
+    font-family: 'Inter';
+    font-size: 14px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 14px;
+  }
+
+  #exportControls select {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  #exportControls button {
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter .15s ease;
+  }
+
+  #exportControls button:hover {
+    filter: brightness(1.05);
+  }
+
+  /* Results table styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    font-size: 14px;
+  }
+  thead {
+    background: #1d2222;
+  }
+  th {
+    text-align: left;
+    padding: 14px 16px;
+    color: var(--accent);
+    font-weight: 600;
+    cursor: pointer; /* clickable for sorting */
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+  th.sorted {
+    background: #1f2626; /* highlight sorted column */
+  }
+  .arrow {
+    font-size: 0.8em;
+    margin-left: 6px;
+    opacity: 0.6;
+  }
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: #dfe7e5;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:hover {
+    background: #1a1f1f; /* highlight row on hover */
+  }
+
+  /* GenBank ID links */
+  .genbank-link {
+    color: var(--accent);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  /* Message if no hits are found */
+  #noHits {
+    margin-top: 20px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  /* Responsive layout adjustments */
+  @media (max-width: 900px) {
+    body { flex-direction: column; }
+    #sidebar {
+      width: 100%;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <div>
+    <h3>Filter Results</h3>
+    <p>Genetic Element:</p>
+    <!-- Host checkboxes -->
+    <label><input type="checkbox" class="hostFilter" value="recombinase" checked>recombinase</label>
+    <label><input type="checkbox" class="hostFilter" value="integrase" checked> integrase</label>
+    <label><input type="checkbox" class="hostFilter" value="ligase" checked> ligase</label>
+    <label><input type="checkbox" class="hostFilter" value="endonuclease" checked> endonuclease</label>
+    <label><input type="checkbox" class="hostFilter" value="exonuclease" checked> exonuclease</label>
+    <label><input type="checkbox" class="hostFilter" value="synthase" checked> synthase</label>
+  </div>
+  <div>
+    <!-- Similarity slider -->
+    <p>Similarity ≥ <span id="simVal">0%</span></p>
+    <input type="range" id="simSlider" min="0" max="100" value="0">
+  </div>
+  <div>
+    <!-- E-value slider -->
+    <p>Significance (E-value) ≤ <span id="eVal">?</span></p>
+    <input type="range" id="eSlider" min="0" max="10" value="10">
+  </div>
+  <div>
+    <!-- Return button -->
+    <button id="returnBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 .707.707L6.707 8l5.354 5.647a.5.5 0 0 1-.707.707l-6-6a.5.5 0 0 1 0-.707l6-6z"/>
+      </svg>
+      Return to Search
+    </button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div id="content">
+  <div id="headerRow">
+    <div id="titleBlock">
+      <h2>ELEMENT Results</h2>
+      <p>All known and potential genetic elements. Filter, sort, or export. </p>
+    </div>
+    <div id="exportControls">
+      <!-- Export options -->
+      <select id="exportFormat">
+        <option value="csv">CSV</option>
+        <option value="tsv">TSV</option>
+        <option value="txt">TXT</option>
+      </select>
+      <button id="exportBtn">Export Table</button>
+    </div>
+  </div>
+
+  <table id="resultsTable">
+    <thead>
+      <tr>
+        <th data-key="name">Phage <span class="arrow">▼</span></th>
+        <th data-key="accession">GenBank ID <span class="arrow">▼</span></th>
+        <th data-key="similarity">Nucleotide Identity (%) <span class="arrow">▼</span></th>
+        <th data-key="evalue">Significance (E-value) <span class="arrow">▼</span></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <!-- Message when no results -->
+  <p id="noHits" style="display:none;">No hits found. Try changing the filters.</p>
+</div>
+
+<script>
+  // Load BLAST hits from localStorage
+  const hits = JSON.parse(localStorage.getItem("blastHits")) || [];
+  const tbody = document.querySelector("#resultsTable tbody");
+  const hostChecks = document.querySelectorAll(".hostFilter");
+  const simSlider = document.getElementById("simSlider");
+  const simVal = document.getElementById("simVal");
+  const eSlider = document.getElementById("eSlider");
+  const eVal = document.getElementById("eVal");
+  const returnBtn = document.getElementById("returnBtn");
+  const exportBtn = document.getElementById("exportBtn");
+  const exportFormat = document.getElementById("exportFormat");
+  
+  let sortState = { key: null, order: 0 }; // track column sorting
+
+  function parseE(e) {
+    let n = Number(e);
+    if (isNaN(n)) {
+      if (e.toLowerCase().includes('e')) return parseFloat(e); // scientific notation
+      else return Number(e);
+    }
+    return n;
+  }
+
+  function formatE(val) {
+    return val < 0.01 ? val.toExponential(1) : val.toFixed(3);
+  }
+
+  function adjustESliderRange() {
+    if (hits.length === 0) {
+      eSlider.min = 0;
+      eSlider.max = 10;
+      eSlider.step = 0.01;
+      eSlider.value = 10;
+      eVal.textContent = eSlider.value;
+      return;
+    }
+
+    const eValues = hits.map(h => parseE(h.evalue)).filter(v => !isNaN(v));
+    if (eValues.length === 0) {
+      eSlider.min = 0;
+      eSlider.max = 10;
+      eSlider.step = 0.01;
+      eSlider.value = 10;
+      eVal.textContent = eSlider.value;
+      return;
+    }
+
+    const minE = Math.min(...eValues);
+    const maxE = Math.max(...eValues);
+
+    eSlider.min = minE;
+    eSlider.max = maxE;
+    eSlider.step = (maxE - minE) / 100;
+    eSlider.value = maxE;
+
+    eVal.textContent = formatE(parseFloat(eSlider.value));
+  }
+
+  function renderTable() {
+    let selectedHosts = Array.from(hostChecks).filter(ch => ch.checked).map(ch => ch.value.toLowerCase());
+    let simThreshold = parseInt(simSlider.value);
+    let eThreshold = parseFloat(eSlider.value);
+
+    let filtered = hits.filter(h => {
+      const lower = h.name.toLowerCase();
+      const hostOk = selectedHosts.some(hb => lower.includes(hb));
+      const simOk = parseFloat(h.similarity) >= simThreshold;
+      const eOk = parseE(h.evalue) <= eThreshold;
+      return hostOk && simOk && eOk;
+    });
+
+    if (sortState.key) {
+      const k = sortState.key;
+      const order = sortState.order;
+      filtered.sort((a, b) => {
+        let valA = a[k], valB = b[k];
+        if (k === 'evalue') { valA = parseE(valA); valB = parseE(valB); }
+        else if (k === 'similarity') { valA = parseFloat(valA); valB = parseFloat(valB); }
+        if (valA < valB) return order === 1 ? -1 : 1;
+        if (valA > valB) return order === 1 ? 1 : -1;
+        return 0;
+      });
+    }
+
+    tbody.innerHTML = "";
+    if (filtered.length === 0) {
+      document.getElementById("noHits").style.display = "block";
+    } else {
+      document.getElementById("noHits").style.display = "none";
+      filtered.forEach(h => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${h.name}</td><td>${h.accession}</td><td>${h.similarity}</td><td>${h.evalue}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      const rows = document.querySelectorAll('#resultsTable tbody tr');
+      rows.forEach(row => {
+        const idCell = row.querySelector('td:nth-child(2)');
+        if (idCell && idCell.textContent.trim() !== '') {
+          const id = idCell.textContent.trim();
+          const link = document.createElement('a');
+          link.href = `https://www.ncbi.nlm.nih.gov/nuccore/${id}/`;
+          link.textContent = id;
+          link.target = '_blank';
+          link.classList.add('genbank-link');
+          idCell.innerHTML = '';
+          idCell.appendChild(link);
+        }
+      });
+    }
+  }
+
+  hostChecks.forEach(ch => ch.addEventListener("change", renderTable));
+  simSlider.addEventListener("input", () => {
+    simVal.textContent = simSlider.value + "%";
+    renderTable();
+  });
+  eSlider.addEventListener("input", () => {
+    eVal.textContent = formatE(parseFloat(eSlider.value));
+    renderTable();
+  });
+  returnBtn.addEventListener("click", () => { window.location.href = "index.html"; });
+
+  // Updated sorting table columns with arrow handling
+  const headers = document.querySelectorAll("th");
+  headers.forEach(th => {
+    th.addEventListener("click", () => {
+      if (sortState.key !== th.dataset.key) {
+        sortState.key = th.dataset.key;
+        sortState.order = 1; // ascending
+      } else {
+        sortState.order = (sortState.order + 1) % 3; // cycle: 1 → 2 → 0
+        if (sortState.order === 0) sortState.key = null;
+      }
+
+      headers.forEach(h => {
+        h.classList.remove("sorted");
+        const arrow = h.querySelector(".arrow");
+        if (arrow) arrow.textContent = "▼"; // reset arrows to default
+      });
+
+      if (sortState.key) {
+        th.classList.add("sorted");
+        const arrow = th.querySelector(".arrow");
+        if (arrow) {
+          if (sortState.order === 1) {
+            arrow.textContent = "▲"; // ascending
+          } else if (sortState.order === 2) {
+            arrow.textContent = "▼"; // descending
+          }
+        }
+      }
+
+      renderTable();
+    });
+  });
+
+  exportBtn.addEventListener("click", () => {
+    const format = exportFormat.value;
+    const sep = format === "csv" ? "," : format === "tsv" ? "\t" : " ";
+    const headerRow = Array.from(document.querySelectorAll("th")).map(th => th.textContent.trim()).join(sep);
+    const rows = Array.from(tbody.querySelectorAll("tr")).map(tr => Array.from(tr.querySelectorAll("td")).map(td => td.textContent.trim()).join(sep));
+    rows.unshift(headerRow);
+
+    const blob = new Blob([rows.join("\n")], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `gene_element_results.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  });
+
+  simVal.textContent = simSlider.value + "%";
+  adjustESliderRange();
+  renderTable();
+</script>
+
+</body>
+</html>

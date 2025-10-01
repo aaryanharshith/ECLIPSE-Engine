@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Phage ELEMENT v1.2</title>
+  <title>ECLIPSE v1.2</title>
   <!-- Import Inter font from Google Fonts -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900;&display=swap" rel="stylesheet" />
@@ -197,8 +197,8 @@
 <body>
 
   <header>
-    <h1>Phage ELEMENT</h1>
-    <p>Enter any DNA. Instantly locate phage recombinases, integrases, and more. </p>
+    <h1>ECLIPSE Engine</h1>
+    <p>Enter DNA-seq from your reactor filtrate. Instantly track bacterial and viral contaminants. </p>
   </header>
   <main class="shell" role="main">
 
@@ -233,11 +233,11 @@
 
     <!-- ====== Submit Button ====== -->
     <div class="actions">
-      <button id="submitButton" class="btn">Find Genetic Elements</button>
+      <button id="submitButton" class="btn">Analyse DNA-Seq</button>
     </div>
   </main>
 
-  <div class="credits">Made by Aaryan Harshith for BCR (2025)</div>
+  <div class="credits">Made by Aaryan Harshith for POW.bio SOFe (2025)</div>
 
   <script>
     // ====== DOM Elements ======
@@ -303,7 +303,7 @@
       let cleaned = raw.split(/\r?\n/).filter(line => !line.startsWith('>')).join('');
       let sequence = cleaned.toUpperCase().replace(/\s/g,''); // remove whitespace
 
-      if (!/^[ACGT]*$/.test(sequence)) { alert('Sequence can only contain A, C, T, G.'); return; }
+      if (!/^[ACGTN]*$/.test(sequence)) { alert('Sequence can only contain A, C, T, G.'); return; }
       if (!sequence) { alert('Please enter a DNA sequence or upload a file.'); return; }
       await runBlast(sequence);
     });
@@ -356,9 +356,9 @@
           if (name.includes(',')) name = name.split(',')[0];
           const lower = name.toLowerCase();
 
-          // Only allow phages for ESKAPE hosts
-          const hosts = ["enterococcus","enterobacter","acinetobacter","pseudomonas","klebsiella","staph"];
-          const ok = lower.includes("phage") && hosts.some(h => lower.includes(h));
+          // Only allow items containing relevant keyword stems
+          const hosts = ["phage","bact","chlorite","dismutase","chlori"];
+          const ok = hosts.some(h => lower.includes(h));
           if (!ok) continue;
 
           hits.push({ name, accession, similarity, evalue });
@@ -373,7 +373,7 @@
         alert("Error fetching BLAST results."); // notify user
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Find Genetic Elements'; // reset button
+        submitBtn.innerHTML = 'Analyze DNA-Seq'; // reset button
       }
     }
   </script>

@@ -1,10 +1,10 @@
-# ECLIPSE Engine 🪐
+# ECLIPSE Engine ⚛️
 
 Enter DNA-seq from your reactor filtrate. Instantly track contaminants and chlorite resistance. 
 
-Built on the BLASTn API and accelerated with a novel search algorithm. 
+Built on the BLASTn API and accelerated with a custom search algorithm. 
 
-Built by Aaryan Harshith for POW.bio SOFe (2025)
+Made by Aaryan Harshith for POW.bio SOFe (2025)
 
 </br>
 

@@ -1,6 +1,6 @@
 # ECLIPSE Engine 🪐
 
-Enter DNA-seq from your reactor filtrate. Instantly track bacterial and viral contaminants. 
+Enter DNA-seq from your reactor filtrate. Instantly track contaminants and chlorite resistance. 
 
 Built on the BLASTn API and accelerated with a novel search algorithm. 
 

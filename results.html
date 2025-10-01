@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ELEMENT Results</title>
+<title>ECLIPSE Results</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -233,13 +233,15 @@
   <div>
     <h3>Filter Results</h3>
     <p>Genetic Element:</p>
-    <!-- Host checkboxes -->
-    <label><input type="checkbox" class="hostFilter" value="recombinase" checked>recombinase</label>
-    <label><input type="checkbox" class="hostFilter" value="integrase" checked> integrase</label>
-    <label><input type="checkbox" class="hostFilter" value="ligase" checked> ligase</label>
-    <label><input type="checkbox" class="hostFilter" value="endonuclease" checked> endonuclease</label>
-    <label><input type="checkbox" class="hostFilter" value="exonuclease" checked> exonuclease</label>
-    <label><input type="checkbox" class="hostFilter" value="synthase" checked> synthase</label>
+    
+    <!--Filter checkboxes -->
+    <label><input type="checkbox" class="hostFilter" value="bacteria" checked> bacteria</label>
+    <label><input type="checkbox" class="hostFilter" value="phage" checked>phage</label>
+    <label><input type="checkbox" class="hostFilter" value="myco" checked> mycoplasma</label>
+    <label><input type="checkbox" class="hostFilter" value="fungi" checked> fungi</label>
+    <label><input type="checkbox" class="hostFilter" value="chlor" checked> chlorite machinery</label>
+    
+    
   </div>
   <div>
     <!-- Similarity slider -->
@@ -266,8 +268,8 @@
 <div id="content">
   <div id="headerRow">
     <div id="titleBlock">
-      <h2>ELEMENT Results</h2>
-      <p>All known and potential genetic elements. Filter, sort, or export. </p>
+      <h2>ELCIPSE Results</h2>
+      <p>All known and potential contaminants. Filter, sort, or export. </p>
     </div>
     <div id="exportControls">
       <!-- Export options -->
@@ -283,7 +285,7 @@
   <table id="resultsTable">
     <thead>
       <tr>
-        <th data-key="name">Phage <span class="arrow">▼</span></th>
+        <th data-key="name">Element <span class="arrow">▼</span></th>
         <th data-key="accession">GenBank ID <span class="arrow">▼</span></th>
         <th data-key="similarity">Nucleotide Identity (%) <span class="arrow">▼</span></th>
         <th data-key="evalue">Significance (E-value) <span class="arrow">▼</span></th>

@@ -1,6 +1,6 @@
 {
-  "name": "phage-element",
-  "version": "1.0.0",
+  "name": "phage-eclipse",
+  "version": "1.2.0",
   "description": "",
   "main": "server.js",
   "type": "module",
@@ -17,6 +17,6 @@
     "node-fetch": "^3.3.2"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }
